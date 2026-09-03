@@ -10,6 +10,7 @@ const Login = () => {
 
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
+    const [ guestError, setGuestError ] = useState("")
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -18,8 +19,13 @@ const Login = () => {
     }
 
     const handleGuestAccess = async () => {
-        await handleGuestLogin()
-        navigate('/')
+        setGuestError("")
+        const loggedIn = await handleGuestLogin()
+        if (loggedIn) {
+            navigate('/')
+        } else {
+            setGuestError("Guest login is unavailable. Please try again later.")
+        }
     }
 
     if(loading){
@@ -51,6 +57,7 @@ const Login = () => {
                     <button type="button" className="button secondary-button" onClick={handleGuestAccess}>
                         Continue as guest
                     </button>
+                    {guestError && <p className="guest-error">{guestError}</p>}
                 </div>
                 <p>Don't have an account? <Link to={"/register"} >Register</Link> </p>
             </div>

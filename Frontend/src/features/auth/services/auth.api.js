@@ -40,15 +40,9 @@ export async function login({ email, password }) {
 }
 
 export async function guestLogin() {
+    const response = await api.post("/api/auth/guest")
 
-    try {
-        const response = await api.post("/api/auth/guest")
-
-        return response.data
-
-    } catch (err) {
-        console.log(err)
-    }
+    return response.data
 }
 
 export async function logout() {

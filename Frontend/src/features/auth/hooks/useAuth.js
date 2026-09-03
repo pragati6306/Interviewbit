@@ -27,8 +27,9 @@ export const useAuth = () => {
         try {
             const data = await guestLogin()
             setUser(data.user)
+            return true
         } catch (err) {
-
+            return false
         } finally {
             setLoading(false)
         }
