@@ -21,6 +21,21 @@ main{
         gap: 0.75rem;
     }
 
+    .guest-login{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+
+        span{
+            color: #777;
+        }
+
+        button{
+            width: 100%;
+        }
+    }
+
     .input-group{
         display: flex;
         flex-direction: column;

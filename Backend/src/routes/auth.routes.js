@@ -19,6 +19,8 @@ authRouter.post("/register", authController.registerUserController)
  */
 authRouter.post("/login", authController.loginUserController)
 
+authRouter.post("/guest", authController.guestLoginController)
+
 
 /**
  * @route GET /api/auth/logout

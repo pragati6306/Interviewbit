@@ -5,7 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 
 const Login = () => {
 
-    const { loading, handleLogin } = useAuth()
+    const { loading, handleLogin, handleGuestLogin } = useAuth()
     const navigate = useNavigate()
 
     const [ email, setEmail ] = useState("")
@@ -14,6 +14,11 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         await handleLogin({email,password})
+        navigate('/')
+    }
+
+    const handleGuestAccess = async () => {
+        await handleGuestLogin()
         navigate('/')
     }
 
@@ -41,6 +46,12 @@ const Login = () => {
                     </div>
                     <button className='button primary-button' >Login</button>
                 </form>
+                <div className="guest-login">
+                    <span>or</span>
+                    <button type="button" className="button secondary-button" onClick={handleGuestAccess}>
+                        Continue as guest
+                    </button>
+                </div>
                 <p>Don't have an account? <Link to={"/register"} >Register</Link> </p>
             </div>
         </main>

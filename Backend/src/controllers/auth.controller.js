@@ -42,7 +42,11 @@ async function registerUserController(req, res) {
         { expiresIn: "1d" }
     )
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    })
 
 
     res.status(201).json({
@@ -88,7 +92,11 @@ async function loginUserController(req, res) {
         { expiresIn: "1d" }
     )
 
-    res.cookie("token", token)
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    })
     res.status(200).json({
         message: "User loggedIn successfully.",
         user: {
@@ -99,6 +107,45 @@ async function loginUserController(req, res) {
     })
 }
 
+
+/**
+ * @description Log in with the shared demo account.
+ */
+async function guestLoginController(req, res) {
+
+    const guestUser = await userModel.findOneAndUpdate(
+        { email: "guest@interviewbit.demo" },
+        {
+            $setOnInsert: {
+                username: "Guest User",
+                email: "guest@interviewbit.demo",
+                password: await bcrypt.hash(`${Date.now()}-guest`, 10)
+            }
+        },
+        { new: true, upsert: true }
+    )
+
+    const token = jwt.sign(
+        { id: guestUser._id, username: guestUser.username },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+    )
+
+    res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    })
+
+    res.status(200).json({
+        message: "Guest login successful",
+        user: {
+            id: guestUser._id,
+            username: guestUser.username,
+            email: guestUser.email
+        }
+    })
+}
 
 /**
  * @name logoutUserController
@@ -112,7 +159,11 @@ async function logoutUserController(req, res) {
         await tokenBlacklistModel.create({ token })
     }
 
-    res.clearCookie("token")
+    res.clearCookie("token", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+    })
 
     res.status(200).json({
         message: "User logged out successfully"
@@ -146,6 +197,7 @@ async function getMeController(req, res) {
 module.exports = {
     registerUserController,
     loginUserController,
+    guestLoginController,
     logoutUserController,
     getMeController
 }
