@@ -6,9 +6,9 @@ It analyzes a target job description, rewrites resume content using Generative A
 
 🔗 **Live Application:** https://interviewbit-frontend.vercel.app/login
 
-## 🎥 Project Working
+## 🎥 Project Media
+[SEE Media](https://drive.google.com/drive/folders/1S5SJdw7W_Z9hro3S7RTidBPjyuNq_jjk?usp=drive_link)
 
-[▶️ Watch Project Working Video](https://drive.google.com/file/d/1K417oEo4Nzf8Ad5dv3-8FD6z0X3aKXWp/view?usp=sharing)
 ---
 
 ## ✨ Key Features
